@@ -258,7 +258,7 @@ func (self *dockerContainerHandler) ListThreads(listType container.ListType) ([]
 
 func (self *dockerContainerHandler) ListProcesses(listType container.ListType) ([]int, error) {
 	c := &cgroups.Cgroup{
-		Name:   self.name,
+		Name:   self.id,
 		Parent: self.parent,
 	}
 	return fs.GetPids(c)
