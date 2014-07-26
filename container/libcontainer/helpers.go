@@ -2,9 +2,9 @@ package libcontainer
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"path"
-	"path/filepath"
 	"strings"
 	"time"
 
@@ -108,14 +108,17 @@ func SplitName(containerName string) (string, string, error) {
 	}
 	if nestedLevels > 0 {
 		// we are running inside a docker container
-		upperLevel := strings.Repeat("../", nestedLevels)
-		parent = filepath.Join(upperLevel, parent)
+		/*
+			upperLevel := strings.Repeat("../", nestedLevels)
+			parent = filepath.Join(upperLevel, parent)
+		*/
 	}
 
 	// Strip the last "/"
 	if parent[len(parent)-1] == '/' {
 		parent = parent[:len(parent)-1]
 	}
+	fmt.Printf("-- NestedLevels: %v; parent: %v; id: %v\n", nestedLevels, parent, id)
 
 	return parent, id, nil
 }

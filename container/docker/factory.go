@@ -55,6 +55,12 @@ func (self *dockerFactory) NewContainerHandler(name string) (handler container.C
 		self.machineInfoFactory,
 		self.useSystemd,
 	)
+	pids, err := handler.ListProcesses(container.LIST_SELF)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+	} else {
+		fmt.Printf("Processes under %v:\n\t%v\n", name, pids)
+	}
 	return
 }
 
