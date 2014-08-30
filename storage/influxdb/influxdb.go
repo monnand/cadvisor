@@ -38,7 +38,8 @@ type influxdbStorage struct {
 }
 
 const (
-	colTimestamp          string = "time"
+	colTime               string = "time"
+	colTimestamp          string = "timestamp"
 	colMachineName        string = "machine"
 	colContainerName      string = "container_name"
 	colCpuCumulativeUsage string = "cpu_cumulative_usage"
@@ -65,9 +66,13 @@ func (self *influxdbStorage) containerStatsToValues(
 	stats *info.ContainerStats,
 ) (columns []string, values []interface{}) {
 
+	// Time used by influxdb
+	columns = append(columns, colTime)
+	values = append(values, stats.Timestamp.Unix())
+
 	// Timestamp
 	columns = append(columns, colTimestamp)
-	values = append(values, stats.Timestamp.Unix())
+	values = append(values, stats.Timestamp.Format(time.RFC3339Nano))
 
 	// Machine name
 	columns = append(columns, colMachineName)
